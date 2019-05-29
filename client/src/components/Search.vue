@@ -15,6 +15,8 @@
         <tr v-for="post in posts" :key="post.id">
           <td>{{ post.title }}</td>
           <td>{{ post.description }}</td>
+          <td>{{ post.capacity }}</td>
+          <td>{{ post.equipments }}</td>
           <td align="center">
             <router-link v-bind:to="{ name: 'EditPost', params: { id: post._id } }">
               Edit

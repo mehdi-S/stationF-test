@@ -23,7 +23,7 @@ postRouter.route('/')
 postRouter.route('/post')
   .get((req,res) => {
     var db = req.db;
-    Post.find({}, 'title description', function (error, posts) {
+    Post.find({}, 'title description capacity equipments', function (error, posts) {
       if (error) { console.error(error); }
       res.send({
         posts: posts
@@ -34,9 +34,13 @@ postRouter.route('/post')
     var db = req.db;
     var title = req.body.title;
     var description = req.body.description;
+    var capacity = req.body.capacity;
+    var equipments = req.body.equipments;
     var new_post = new Post({
       title: title,
-      description: description
+      description: description,
+      capacity: capacity,
+      equipments: equipments,
     })
 
     new_post.save((error) => {
