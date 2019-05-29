@@ -9,6 +9,17 @@
           <textarea rows="15" cols="15" placeholder="DESCRIPTION" v-model="description"></textarea>
         </div>
         <div>
+          <input type="number" name="capacity" placeholder="CAPACITY" v-model.number="capacity" >
+        </div>
+        <div id='example-3'>
+          <input type="checkbox" id="switch" value="Nintendo Switch" v-model="equipments">
+          <label for="switch">Nintendo Switch</label>
+          <input type="checkbox" id="retro" value="Retro Projecteur" v-model="equipments">
+          <label for="retro">Retro Projecteur</label>
+          <input type="checkbox" id="fridge" value="Réfrigérateur" v-model="equipments">
+          <label for="fridge">Réfrigérateur</label>
+        </div>
+        <div>
           <button class="app_post_btn" @click="addPost">Add</button>
         </div>
       </div>
@@ -24,6 +35,8 @@ export default {
     return {
       title: '',
       description: '',
+      capacity: 0,
+      equipments: [],
     };
   },
   methods: {
@@ -31,8 +44,19 @@ export default {
       await PostsService.addPost({
         title: this.title,
         description: this.description,
+        capacity: this.capacity,
+        equipments: this.createObjectFromArray(this.equipments),
       });
       this.$router.push({ name: 'Posts' });
+    },
+    createObjectFromArray(stringArray) {
+      const arrayOfEquipments = [];
+      let jsonData = {};
+      stringArray.forEach((element) => {
+        jsonData = { name: element };
+        arrayOfEquipments.push(jsonData);
+      });
+      return arrayOfEquipments;
     },
   },
 };
