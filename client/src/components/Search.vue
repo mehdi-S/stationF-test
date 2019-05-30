@@ -124,7 +124,7 @@ export default {
       form: Object.assign({}, defaultForm),
       datePicker: false,
       hourMenu: false,
-      availableList: {},
+      availableList: [],
       allList: [],
       defaultForm,
     };
@@ -155,7 +155,7 @@ export default {
         time: this.form.time,
       });
       console.log(response);
-      this.availableList = response.data.rooms;
+      this.availableList = response.q;
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];
