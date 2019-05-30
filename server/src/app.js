@@ -55,9 +55,9 @@ postRouter.route('/post')
 
 postRouter.get('/search', (req, res) => {
   var db = req.db;
-  Post.find({ capacity: { $lte : req.body.capacity } }, 'title description capacity equipments resa', function (error, q) {
-    if (error) { console.error(error); }
-    res.send(q)
+  Post.find({ capacity: { $lte : req.query.capacity } }, 'title description capacity equipments resa', function (error, q) {
+    if (error) { return res.status(500).send(error); }
+    res.send(q);
   })
 })
 
@@ -65,7 +65,7 @@ postRouter.get('/search', (req, res) => {
 postRouter.get('/post/:id', (req, res) => {
   var db = req.db;
   Post.findById(req.params.id, 'title description capacity equipments', function (error, post) {
-    if (error) { console.error(error); }
+    if (error) { return res.status(500).send(error); }
     res.send(post)
   })
 })
@@ -89,7 +89,7 @@ postRouter.delete('/post/:id', (req, res) => {
     _id: req.params.id
   }, function(err, post){
     if (err)
-      res.send(err)
+      return res.status(500).send(error);
     res.send({
       success: true
     })
