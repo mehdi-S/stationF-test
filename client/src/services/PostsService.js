@@ -6,7 +6,7 @@ export default {
   },
 
   searchPosts(params) {
-    return Api().get('search', params);
+    return Api().get('search', { params });
   },
 
   addPost(params) {

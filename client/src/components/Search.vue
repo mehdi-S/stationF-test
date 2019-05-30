@@ -148,7 +148,7 @@ export default {
   methods: {
     async searchPost() {
       const response = await PostsService.searchPosts({
-        capacity: parseInt(this.form.capacity, 10),
+        capacity: this.form.capacity,
         equipments: this.createObjectFromArray(this.form.equipments),
         date: this.form.date,
         time: this.form.time,
