@@ -16,7 +16,6 @@
               thumb-label
             ></v-slider>
           </v-flex>
-
           <v-flex shrink style="width: 60px">
             <v-text-field
               v-model="form.capacity"
