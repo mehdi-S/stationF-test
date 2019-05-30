@@ -1,5 +1,5 @@
 <template>
-<v-card flat>
+<v-card id="mainCard">
     <v-snackbar
       v-model="snackbar"
       absolute
@@ -101,7 +101,6 @@ export default {
         capacity: this.form.capacity,
         equipments: this.createObjectFromArray(this.form.equipments),
       });
-      this.$router.push({ name: 'Search' });
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];
@@ -124,5 +123,8 @@ export default {
 };
 </script>
 <style type="text/css">
-
+#mainCard {
+  margin-left: 20px;
+  margin-right: 20px;
+}
 </style>
