@@ -33,7 +33,8 @@
           </v-flex>
           <v-flex xs12>
             <v-checkbox label="Nintendo Switch" value="Nintendo Switch" v-model="form.equipments"/>
-            <v-checkbox label="Retro Projecteur" value="Retro Projecteur" v-model="form.equipments"/>
+            <v-checkbox
+              label="Retro Projecteur" value="Retro Projecteur" v-model="form.equipments"/>
             <v-checkbox label="Réfrigérateur" value="Réfrigérateur" v-model="form.equipments"/>
           </v-flex>
           <v-flex xs12 sm6>

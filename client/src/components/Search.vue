@@ -1,5 +1,5 @@
 <template>
-  <v-card>
+  <v-card id="mainCard">
     <v-subheader>Parameters</v-subheader>
     <v-container grid-list-xl fluid>
       <v-layout wrap>
@@ -9,7 +9,8 @@
               v-model="capacity"
               :max="200"
               :min="0"
-              label="Capacity (in persons)"
+              label="Capacity"
+              hint="in person"
               step="1"
               thumb-label
             ></v-slider>
@@ -83,8 +84,23 @@
               ></v-time-picker>
             </v-menu>
           </v-flex>
+          <v-flex xs12>
+            <v-checkbox label="Nintendo Switch" value="Nintendo Switch" v-model="equipments"/>
+            <v-checkbox
+              label="Retro Projecteur" value="Retro Projecteur" v-model="equipments"/>
+            <v-checkbox label="Réfrigérateur" value="Réfrigérateur" v-model="equipments"/>
+          </v-flex>
       </v-layout>
     </v-container>
+    <v-card-actions>
+        <v-btn
+          :disabled="!formIsValid"
+          flat
+          color="primary"
+          type="submit"
+          @click="searchPost">
+        Search</v-btn>
+      </v-card-actions>
   </v-card>
 </template>
 
@@ -103,6 +119,15 @@ export default {
       hourMenu: false,
     };
   },
+  computed: {
+    formIsValid() {
+      return (
+        this.date &&
+        this.time &&
+        this.capacity
+      );
+    },
+  },
   methods: {
     async addPost() {
       await PostsService.addPost({
@@ -117,5 +142,8 @@ export default {
 };
 </script>
 <style type="text/css">
-
+#mainCard {
+  margin-left: 20px;
+  margin-right: 20px;
+}
 </style>
