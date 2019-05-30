@@ -65,22 +65,13 @@ postRouter.get('/post/:id', (req, res) => {
 // Update a post
 postRouter.put('/post/:id', (req, res) => {
   var db = req.db;
-  Post.findById(req.params.id, 'title description capacity equipments', function (error, post) {
-    if (error) { console.error(error); }
-
-    var title = req.body.title;
-    var description = req.body.description;
-    var capacity = req.body.capacity;
-    var equipments = req.body.equipments;
-    post.save(function (error) {
-      if (error) {
-        console.log(error)
-      }
-      res.send({
-        success: true
-      })
-    })
-  })
+  Post.findOneAndUpdate(
+    {'_id':req.params.id},
+    req.body,
+    {new:true}
+  )
+  .then(doc => { res.json() })
+  .catch(err => { res.status(500).json(err) })
 })
 
 // Delete a post
