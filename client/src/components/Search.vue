@@ -2,7 +2,7 @@
   <v-card color="white">
     <v-subheader>Parameters</v-subheader>
       <v-layout row>
-        <v-flex class="pr-3">
+        <v-flex>
           <v-slider
             v-model="capacity"
             :max="200"
@@ -25,7 +25,7 @@
       </v-layout>
 
     <v-layout row wrap>
-      <v-flex xs12 sm6 md4>
+      <v-flex xs12 sm5 md3>
         <v-menu
           v-model="menu"
           :close-on-content-click="false"
@@ -51,6 +51,39 @@
         </v-menu>
       </v-flex>
     </v-layout>
+    <v-spacer></v-spacer>
+    <v-flex xs12 sm5 md3>
+      <v-menu
+        ref="menu"
+        v-model="hourMenu"
+        :close-on-content-click="false"
+        :nudge-right="40"
+        :return-value.sync="time"
+        lazy
+        transition="scale-transition"
+        offset-y
+        full-width
+        max-width="290px"
+        min-width="290px"
+      >
+        <template v-slot:activator="{ on }">
+          <v-text-field
+            v-model="time"
+            label="Hour"
+            prepend-icon="access_time"
+            readonly
+            v-on="on"
+          ></v-text-field>
+        </template>
+        <v-time-picker
+          v-if="hourMenu"
+          v-model="time"
+          full-width
+          @click:minute="$refs.menu.save(time)"
+          format="24hr"
+        ></v-time-picker>
+      </v-menu>
+    </v-flex>
   </v-card>
 
 </template>
@@ -64,9 +97,10 @@ export default {
     return {
       capacity: 0,
       date: new Date().toISOString().substr(0, 10),
-      hour: '',
+      time: null,
       equipments: [],
       datePicker: false,
+      hourMenu: false,
     };
   },
   methods: {
