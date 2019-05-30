@@ -56,7 +56,7 @@ export default {
       sidebar: false,
       menuItems: [
         { title: 'Search', path: '/search', icon: 'home' },
-        { title: 'edit', path: '/posts/new', icon: 'face' },
+        { title: 'New', path: '/posts/new', icon: 'face' },
       ],
     };
   },

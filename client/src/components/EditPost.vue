@@ -10,6 +10,17 @@
           <textarea rows="15" cols="15" placeholder="DESCRIPTION" v-model="description"></textarea>
         </div>
         <div>
+          <input type="number" name="capacity" placeholder="CAPACITY" v-model.number="capacity" >
+        </div>
+        <div id='checks'>
+          <input type="checkbox" id="switch" value="Nintendo Switch" v-model="equipments">
+          <label for="switch">Nintendo Switch</label>
+          <input type="checkbox" id="retro" value="Retro Projecteur" v-model="equipments">
+          <label for="retro">Retro Projecteur</label>
+          <input type="checkbox" id="fridge" value="Réfrigérateur" v-model="equipments">
+          <label for="fridge">Réfrigérateur</label>
+        </div>
+        <div>
           <button class="app_post_btn" @click="updatePost">Update</button>
         </div>
       </div>
@@ -25,6 +36,8 @@ export default {
     return {
       title: '',
       description: '',
+      capacity: 0,
+      equipments: [],
     };
   },
   mounted() {
@@ -37,14 +50,31 @@ export default {
       });
       this.title = response.data.title;
       this.description = response.data.description;
+      this.capacity = response.data.capacity;
+      this.equipments = this.createArrayFromObject(response.data.equipments);
     },
     async updatePost() {
       await PostsService.updatePost({
         id: this.$route.params.id,
         title: this.title,
         description: this.description,
+        capacity: this.capacity,
+        equipments: this.createObjectFromArray(this.equipments),
       });
-      this.$router.push({ name: 'Posts' });
+      this.$router.push({ name: 'Search' });
+    },
+    createObjectFromArray(stringArray) {
+      const arrayOfEquipments = [];
+      let jsonData = {};
+      stringArray.forEach((element) => {
+        jsonData = { name: element };
+        arrayOfEquipments.push(jsonData);
+      });
+      return arrayOfEquipments;
+    },
+    createArrayFromObject(obj) {
+      const stringArray = obj.map(item => item.name);
+      return stringArray;
     },
   },
 };
@@ -70,5 +100,8 @@ export default {
   width: 520px;
   border: none;
   cursor: pointer;
+}
+#checks {
+  width: 500px;
 }
 </style>

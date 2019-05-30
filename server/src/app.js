@@ -56,7 +56,7 @@ postRouter.route('/post')
 // Fetch single post
 postRouter.get('/post/:id', (req, res) => {
   var db = req.db;
-  Post.findById(req.params.id, 'title description', function (error, post) {
+  Post.findById(req.params.id, 'title description capacity equipments', function (error, post) {
     if (error) { console.error(error); }
     res.send(post)
   })
@@ -65,11 +65,13 @@ postRouter.get('/post/:id', (req, res) => {
 // Update a post
 postRouter.put('/post/:id', (req, res) => {
   var db = req.db;
-  Post.findById(req.params.id, 'title description', function (error, post) {
+  Post.findById(req.params.id, 'title description capacity equipments', function (error, post) {
     if (error) { console.error(error); }
 
-    post.title = req.body.title
-    post.description = req.body.description
+    var title = req.body.title;
+    var description = req.body.description;
+    var capacity = req.body.capacity;
+    var equipments = req.body.equipments;
     post.save(function (error) {
       if (error) {
         console.log(error)
