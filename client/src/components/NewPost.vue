@@ -42,6 +42,7 @@
               v-model="form.capacity"
               label="Capacity"
               hint="in person"
+              persistent-hint
               min="1"
               max="200"
               thumb-label
