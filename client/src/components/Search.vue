@@ -1,34 +1,38 @@
 
 <template>
   <div class="posts">
-    <h1>Posts</h1>
+    <h1>Search Rooms</h1>
     <div v-if="posts.length > 0" class="table-wrap">
       <div>
-        <router-link v-bind:to="{ name: 'NewPost' }" class="">Add Post</router-link>
+        <router-link v-bind:to="{ name: 'NewPost' }" class="">Add Rooms</router-link>
       </div>
       <table>
         <tr>
-          <td>Title</td>
-          <td width="550">Description</td>
-          <td width="100" align="center">Action</td>
+          <td width="300" align="center">Titre</td>
+          <td width="550" align="center">Description</td>
+          <td width="100" align="center">Taille</td>
+          <td width="500" align="center">Equipement(s)</td>
+          <td width="200" align="center">Actions</td>
         </tr>
         <tr v-for="post in posts" :key="post.id">
           <td>{{ post.title }}</td>
           <td>{{ post.description }}</td>
           <td>{{ post.capacity }}</td>
-          <td>{{ post.equipments }}</td>
+          <td>
+            <p v-for="item in post.equipments" :key="item.id">{{ item.name}}</p>
+          </td>
           <td align="center">
             <router-link v-bind:to="{ name: 'EditPost', params: { id: post._id } }">
               Edit
             </router-link> |
-            <a href="#" @click="deletePost(post._id)">Delete</a>
+            <a href="/search" @click="deletePost(post._id)">Delete</a>
           </td>
         </tr>
       </table>
     </div>
     <div v-else>
-      There are no posts.. Lets add one now <br /><br />
-      <router-link v-bind:to="{ name: 'NewPost' }" class="add_post_link">Add Post</router-link>
+      There are no room.. Lets add one now <br /><br />
+      <router-link v-bind:to="{ name: 'NewPost' }" class="add_post_link">Add Room</router-link>
     </div>
   </div>
 </template>

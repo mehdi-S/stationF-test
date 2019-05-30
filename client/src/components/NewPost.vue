@@ -1,6 +1,6 @@
 <template>
   <div class="posts">
-    <h1>Add Post</h1>
+    <h1>Add Room</h1>
       <div class="form">
         <div>
           <input type="text" name="title" placeholder="TITLE" v-model="title">
@@ -11,7 +11,7 @@
         <div>
           <input type="number" name="capacity" placeholder="CAPACITY" v-model.number="capacity" >
         </div>
-        <div id='example-3'>
+        <div id='checks'>
           <input type="checkbox" id="switch" value="Nintendo Switch" v-model="equipments">
           <label for="switch">Nintendo Switch</label>
           <input type="checkbox" id="retro" value="Retro Projecteur" v-model="equipments">
@@ -47,7 +47,7 @@ export default {
         capacity: this.capacity,
         equipments: this.createObjectFromArray(this.equipments),
       });
-      this.$router.push({ name: 'Posts' });
+      this.$router.push({ name: 'Search' });
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];
@@ -82,5 +82,8 @@ export default {
   width: 520px;
   border: none;
   cursor: pointer;
+}
+#checks {
+  width: 500px;
 }
 </style>

@@ -1,7 +1,7 @@
 
 <template>
   <div class="posts">
-    <h1>Edit Post</h1>
+    <h1>Edit Room</h1>
       <div class="form">
         <div>
           <input type="text" name="title" placeholder="TITLE" v-model="title">

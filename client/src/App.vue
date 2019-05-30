@@ -38,7 +38,7 @@
       </v-toolbar-items>
     </v-toolbar>
 
-    <v-content>
+    <v-content id="v-content">
       <router-view></router-view>
     </v-content>
 
@@ -52,7 +52,7 @@ export default {
   name: 'App',
   data() {
     return {
-      appTitle: 'STATION F Home finder',
+      appTitle: 'STATION F Room finder',
       sidebar: false,
       menuItems: [
         { title: 'Search', path: '/search', icon: 'home' },
@@ -83,5 +83,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+}
+#v-content {
+  margin-top: 40px;
 }
 </style>
