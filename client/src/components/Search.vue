@@ -153,8 +153,8 @@ export default {
         date: this.form.date,
         time: this.form.time,
       });
-      console.log(response);
-      this.availableList = response.q;
+      console.log(response.data);
+      this.availableList = response.data;
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];
