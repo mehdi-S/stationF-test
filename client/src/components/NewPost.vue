@@ -40,11 +40,11 @@
           <v-flex xs12 sm6>
             <v-slider
               v-model="form.capacity"
+              :min="1"
+              :max="200"
               label="Capacity"
               hint="in person"
               persistent-hint
-              min="1"
-              max="200"
               thumb-label
             ></v-slider>
           </v-flex>

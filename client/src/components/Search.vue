@@ -8,7 +8,7 @@
             <v-slider
               v-model="form.capacity"
               :max="200"
-              :min="0"
+              :min="1"
               label="Capacity"
               hint="in person"
               persistent-hint
@@ -16,7 +16,7 @@
               thumb-label
             ></v-slider>
           </v-flex>
-          <v-flex shrink style="width: 60px">
+          <v-flex shrink style="width: 80px">
             <v-text-field
               v-model="form.capacity"
               class="mt-0"
