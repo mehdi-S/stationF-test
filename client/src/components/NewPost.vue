@@ -1,29 +1,66 @@
 <template>
-  <div class="posts">
-    <h1>Add Room</h1>
-      <div class="form">
-        <div>
-          <input type="text" name="title" placeholder="TITLE" v-model="title">
-        </div>
-        <div>
-          <textarea rows="15" cols="15" placeholder="DESCRIPTION" v-model="description"></textarea>
-        </div>
-        <div>
-          <input type="number" name="capacity" placeholder="CAPACITY" v-model.number="capacity" >
-        </div>
-        <div id='checks'>
-          <input type="checkbox" id="switch" value="Nintendo Switch" v-model="equipments">
-          <label for="switch">Nintendo Switch</label>
-          <input type="checkbox" id="retro" value="Retro Projecteur" v-model="equipments">
-          <label for="retro">Retro Projecteur</label>
-          <input type="checkbox" id="fridge" value="Réfrigérateur" v-model="equipments">
-          <label for="fridge">Réfrigérateur</label>
-        </div>
-        <div>
-          <button class="app_post_btn" @click="addPost">Add</button>
-        </div>
-      </div>
-  </div>
+<v-card flat>
+    <v-snackbar
+      v-model="snackbar"
+      absolute
+      top
+      right
+      color="success"
+    >
+      <span>Registration successful!</span>
+      <v-icon dark>check_circle</v-icon>
+    </v-snackbar>
+    <v-form ref="form" @submit.prevent="submit">
+      <v-container grid-list-xl fluid>
+        <v-layout wrap>
+          <v-flex xs12 sm6>
+            <v-text-field
+              v-model="form.title"
+              :rules="rules.title"
+              label="Title"
+              required
+            ></v-text-field>
+          </v-flex>
+          <v-flex xs12>
+            <v-textarea
+              v-model="form.description">
+              <template v-slot:label>
+                <div>
+                  Bio <small>(optional)</small>
+                </div>
+              </template>
+            </v-textarea>
+          </v-flex>
+          <v-flex xs12>
+            <v-checkbox label="Nintendo Switch" value="Nintendo Switch" v-model="form.equipments"/>
+            <v-checkbox label="Retro Projecteur" value="Retro Projecteur" v-model="form.equipments"/>
+            <v-checkbox label="Réfrigérateur" value="Réfrigérateur" v-model="form.equipments"/>
+          </v-flex>
+          <v-flex xs12 sm6>
+            <v-slider
+              v-model="form.capacity"
+              label="Capacity"
+              hint="in person"
+              min="1"
+              max="200"
+              thumb-label
+            ></v-slider>
+          </v-flex>
+        </v-layout>
+      </v-container>
+      <v-card-actions>
+        <v-btn flat @click="resetForm">Cancel</v-btn>
+        <v-spacer></v-spacer>
+        <v-btn
+          :disabled="!formIsValid"
+          flat
+          color="primary"
+          type="submit"
+          @click="addPost">
+        Add</v-btn>
+      </v-card-actions>
+    </v-form>
+  </v-card>
 </template>
 
 <script>
@@ -32,22 +69,39 @@ import PostsService from '@/services/PostsService';
 export default {
   name: 'NewPost',
   data() {
-    return {
+    const defaultForm = Object.freeze({
       title: '',
       description: '',
       capacity: 0,
       equipments: [],
+    });
+    return {
+      form: Object.assign({}, defaultForm),
+      rules: {
+        title: [val => (val || '').length > 0 || 'This field is required'],
+      },
+      content: 'hey',
+      snackbar: false,
+      defaultForm,
     };
+  },
+  computed: {
+    formIsValid() {
+      return (
+        this.form.title &&
+        this.form.description
+      );
+    },
   },
   methods: {
     async addPost() {
       await PostsService.addPost({
-        title: this.title,
-        description: this.description,
-        capacity: this.capacity,
-        equipments: this.createObjectFromArray(this.equipments),
+        title: this.form.title,
+        description: this.form.description,
+        capacity: this.form.capacity,
+        equipments: this.createObjectFromArray(this.form.equipments),
       });
-      this.$router.push({ name: 'List' });
+      this.$router.push({ name: 'Search' });
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];
@@ -58,32 +112,17 @@ export default {
       });
       return arrayOfEquipments;
     },
+    resetForm() {
+      this.form = Object.assign({}, this.defaultForm);
+      this.$refs.form.reset();
+    },
+    submit() {
+      this.snackbar = true;
+      this.resetForm();
+    },
   },
 };
 </script>
 <style type="text/css">
-.form input, .form textarea {
-  width: 500px;
-  padding: 10px;
-  border: 1px solid #e0dede;
-  outline: none;
-  font-size: 12px;
-}
-.form div {
-  margin: 20px;
-}
-.app_post_btn {
-  background: #4d7ef7;
-  color: #fff;
-  padding: 10px 80px;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: bold;
-  width: 520px;
-  border: none;
-  cursor: pointer;
-}
-#checks {
-  width: 500px;
-}
+
 </style>
