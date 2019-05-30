@@ -125,7 +125,6 @@ export default {
       datePicker: false,
       hourMenu: false,
       availableList: [],
-      allList: [],
       defaultForm,
     };
   },
@@ -149,7 +148,7 @@ export default {
   methods: {
     async searchPost() {
       const response = await PostsService.searchPosts({
-        capacity: this.form.capacity,
+        capacity: parseInt(this.form.capacity, 10),
         equipments: this.createObjectFromArray(this.form.equipments),
         date: this.form.date,
         time: this.form.time,

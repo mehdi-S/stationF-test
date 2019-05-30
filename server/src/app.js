@@ -20,14 +20,6 @@ postRouter.route('/')
       res.json({message : "nice request!", methode : req.method});
 });
 
-postRouter.get('/search', (req, res) => {
-  var db = req.db;
-  Post.find({ capacity: { $lte : req.body.capacity } }, 'title description capacity equipments resa', function (error, q) {
-    if (error) { console.error(error); }
-    res.send({q})
-  })
-})
-
 postRouter.route('/post')
   .get((req,res) => {
     var db = req.db;
@@ -60,6 +52,14 @@ postRouter.route('/post')
       })
     })
   })
+
+postRouter.get('/search', (req, res) => {
+  var db = req.db;
+  Post.find({ capacity: { $lte : req.body.capacity } }, 'title description capacity equipments resa', function (error, q) {
+    if (error) { console.error(error); }
+    res.send(q)
+  })
+})
 
 // Fetch single post
 postRouter.get('/post/:id', (req, res) => {
