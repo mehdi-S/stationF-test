@@ -5,6 +5,10 @@ export default {
     return Api().get('post');
   },
 
+  searchPosts(params) {
+    return Api().get('search', params);
+  },
+
   addPost(params) {
     return Api().post('post', params);
   },

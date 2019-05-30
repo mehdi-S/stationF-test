@@ -20,6 +20,16 @@ postRouter.route('/')
       res.json({message : "nice request!", methode : req.method});
 });
 
+postRouter.get('/search', (req, res) => {
+  var db = req.db;
+  Post.find({ capacity: { $lte : req.body.capacity } }, 'title description capacity equipments resa', function (error, q) {
+    if (error) { console.error(error); }
+    res.send({
+      rooms: q
+    })
+  })
+})
+
 postRouter.route('/post')
   .get((req,res) => {
     var db = req.db;

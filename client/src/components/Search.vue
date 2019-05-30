@@ -104,6 +104,7 @@
         @click="searchPost">
       Search</v-btn>
     </v-card-actions>
+    <div>{{ this.availableList }}</div>
   </v-card>
 </template>
 
@@ -123,7 +124,7 @@ export default {
       form: Object.assign({}, defaultForm),
       datePicker: false,
       hourMenu: false,
-      availableList: [],
+      availableList: {},
       allList: [],
       defaultForm,
     };
@@ -146,22 +147,24 @@ export default {
     },
   },
   methods: {
-    async addPost() {
-      await PostsService.addPost({
-        title: this.form.title,
-        description: this.form.description,
-        capacity: this.form.capacity,
-        equipments: this.createObjectFromArray(this.form.equipments),
-      });
-      this.$router.push({ name: 'List' });
-    },
     async searchPost() {
-      await PostsService.addPost({
-        title: this.form.title,
-        description: this.form.description,
+      const response = await PostsService.searchPosts({
         capacity: this.form.capacity,
         equipments: this.createObjectFromArray(this.form.equipments),
+        date: this.form.date,
+        time: this.form.time,
       });
+      console.log(response);
+      this.availableList = response.data.rooms;
+    },
+    createObjectFromArray(stringArray) {
+      const arrayOfEquipments = [];
+      let jsonData = {};
+      stringArray.forEach((element) => {
+        jsonData = { name: element };
+        arrayOfEquipments.push(jsonData);
+      });
+      return arrayOfEquipments;
     },
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
