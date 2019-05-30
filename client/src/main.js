@@ -3,12 +3,15 @@
 import Vue from 'vue';
 import Vuetify from 'vuetify';
 import VueHead from 'vue-head';
+import _ from 'lodash';
+
 import App from './App';
 import router from './router';
 
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(VueHead);
+Object.defineProperty(Vue.prototype, '$_', { value: _ });
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,5 +1,4 @@
 <template>
-
   <v-app>
     <v-navigation-drawer v-model="sidebar" app>
       <v-list>
@@ -37,11 +36,9 @@
         </v-btn>
       </v-toolbar-items>
     </v-toolbar>
-
     <v-content id="v-content">
       <router-view></router-view>
     </v-content>
-
   </v-app>
 </template>
 

@@ -94,7 +94,7 @@
       </v-layout>
     </v-container>
     <v-card-actions>
-      <v-btn flat @click="resetForm">Cancel</v-btn>
+      <v-btn flat @click="resetForm">Reset</v-btn>
       <v-spacer></v-spacer>
       <v-btn
         :disabled="!formIsValid"
@@ -129,6 +129,12 @@ export default {
     };
   },
   watch: {
+    form: {
+      handler(val) {
+        console.log(val);
+      },
+      deep: true,
+    },
   },
   computed: {
     formIsValid() {
@@ -149,7 +155,13 @@ export default {
       });
       this.$router.push({ name: 'List' });
     },
-    searchPost() {
+    async searchPost() {
+      await PostsService.addPost({
+        title: this.form.title,
+        description: this.form.description,
+        capacity: this.form.capacity,
+        equipments: this.createObjectFromArray(this.form.equipments),
+      });
     },
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
