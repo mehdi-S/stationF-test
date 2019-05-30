@@ -1,99 +1,87 @@
-
 <template>
-  <div class="posts">
-    <h1>Search Rooms</h1>
-    <div v-if="posts.length > 0" class="table-wrap">
-      <div>
-        <router-link v-bind:to="{ name: 'NewPost' }" class="">Add Rooms</router-link>
-      </div>
-      <table>
-        <tr>
-          <td width="300" align="center">Titre</td>
-          <td width="550" align="center">Description</td>
-          <td width="100" align="center">Taille</td>
-          <td width="500" align="center">Equipement(s)</td>
-          <td width="200" align="center">Actions</td>
-        </tr>
-        <tr v-for="post in posts" :key="post.id">
-          <td>{{ post.title }}</td>
-          <td>{{ post.description }}</td>
-          <td>{{ post.capacity }}</td>
-          <td>
-            <p v-for="item in post.equipments" :key="item.id">{{ item.name}}</p>
-          </td>
-          <td align="center">
-            <router-link v-bind:to="{ name: 'EditPost', params: { id: post._id } }">
-              Edit
-            </router-link> |
-            <a href="/search" @click="deletePost(post._id)">Delete</a>
-          </td>
-        </tr>
-      </table>
-    </div>
-    <div v-else>
-      There are no room.. Lets add one now <br /><br />
-      <router-link v-bind:to="{ name: 'NewPost' }" class="add_post_link">Add Room</router-link>
-    </div>
-  </div>
+  <v-card color="white">
+    <v-subheader>Parameters</v-subheader>
+      <v-layout row>
+        <v-flex class="pr-3">
+          <v-slider
+            v-model="capacity"
+            :max="200"
+            :min="0"
+            label="Capacity (in persons)"
+            step="1"
+            thumb-label
+          ></v-slider>
+        </v-flex>
+
+        <v-flex shrink style="width: 60px">
+          <v-text-field
+            v-model="capacity"
+            class="mt-0"
+            hide-details
+            single-line
+            type="number"
+          ></v-text-field>
+        </v-flex>
+      </v-layout>
+
+    <v-layout row wrap>
+      <v-flex xs12 sm6 md4>
+        <v-menu
+          v-model="menu"
+          :close-on-content-click="false"
+          :nudge-right="40"
+          lazy
+          transition="scale-transition"
+          offset-y
+          full-width
+          min-width="290px">
+          <template v-slot:activator="{ on }">
+            <v-text-field
+              v-model="date"
+              label="Date"
+              prepend-icon="event"
+              readonly
+              v-on="on"
+            ></v-text-field>
+          </template>
+          <v-date-picker v-model="date" @input="datePicker = false"
+            :first-day-of-week="1"
+            locale="fr-FR">
+          </v-date-picker>
+        </v-menu>
+      </v-flex>
+    </v-layout>
+  </v-card>
+
 </template>
 
 <script>
 import PostsService from '@/services/PostsService';
 
 export default {
-  name: 'posts',
+  name: 'Search',
   data() {
     return {
-      posts: [],
+      capacity: 0,
+      date: new Date().toISOString().substr(0, 10),
+      hour: '',
+      equipments: [],
+      datePicker: false,
     };
   },
-  mounted() {
-    this.getPosts();
-  },
   methods: {
-    async getPosts() {
-      const response = await PostsService.fetchPosts();
-      this.posts = response.data.posts;
-    },
-    async deletePost(id) {
-      await PostsService.deletePost(id);
-      this.$router.push({ name: 'Posts' });
+    async addPost() {
+      await PostsService.addPost({
+        title: this.title,
+        description: this.description,
+        capacity: this.capacity,
+        equipments: this.createObjectFromArray(this.equipments),
+      });
+      this.$router.push({ name: 'List' });
     },
   },
 };
 </script>
 <style type="text/css">
-.table-wrap {
-  width: 60%;
-  margin: 0 auto;
-  text-align: center;
-}
-table th, table tr {
-  text-align: left;
-}
-table thead {
-  background: #f2f2f2;
-}
-table tr td {
-  padding: 10px;
-}
-table tr:nth-child(odd) {
-  background: #f2f2f2;
-}
-table tr:nth-child(1) {
-  background: #4d7ef7;
-  color: #fff;
-}
-a {
-  color: #4d7ef7;
-  text-decoration: none;
-}
-a.add_post_link {
-  background: #4d7ef7;
-  color: #fff;
-  padding: 10px 80px;
-  text-transform: uppercase;
-  font-size: 12px;
-  font-weight: bold;
-}
+
 </style>

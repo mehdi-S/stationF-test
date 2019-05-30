@@ -47,7 +47,7 @@ export default {
         capacity: this.capacity,
         equipments: this.createObjectFromArray(this.equipments),
       });
-      this.$router.push({ name: 'Search' });
+      this.$router.push({ name: 'List' });
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];

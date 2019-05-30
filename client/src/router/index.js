@@ -3,8 +3,9 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import Hello from '@/components/HelloWorld';
 import NewPost from '@/components/NewPost';
-import EditPost from '@/components/EditPost';
+import Edit from '@/components/Edit';
 import Search from '@/components/Search';
+import List from '@/components/List';
 
 Vue.use(Router);
 
@@ -22,14 +23,19 @@ export default new Router({
       component: Search,
     },
     {
+      path: '/list',
+      name: 'List',
+      component: List,
+    },
+    {
       path: '/posts/new',
       name: 'NewPost',
       component: NewPost,
     },
     {
       path: '/posts/:id',
-      name: 'EditPost',
-      component: EditPost,
+      name: 'Edit',
+      component: Edit,
     },
   ],
 });
