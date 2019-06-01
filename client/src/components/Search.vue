@@ -151,7 +151,7 @@
           </v-btn>
           <small>Desription</small>
           <v-spacer></v-spacer>
-          <v-btn flat @click="reserveRoom(result._id, result.resa)">Reserve</v-btn>
+          <v-btn flat @click="reserveRoom(result._id)">Reserve</v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="show">
@@ -160,8 +160,8 @@
           </v-card-text>
         </v-slide-y-transition>
     </v-card>
-    <div>start: {{isoStart}},End:{{isoEnd}}, newresa:{{newResa}}</div>
-    {{ availableList }}
+    <v-card-text>start: {{isoStart}},End:{{isoEnd}}</v-card-text>
+    <v-card-text>newresa:{{newResa}}</v-card-text>
   </v-container>
 </template>
 
@@ -214,14 +214,12 @@ export default {
       const response = await PostsService.searchPosts({
         capacity: this.form.capacity,
         equipments: this.createObjectFromArray(this.form.equipments),
-        dateFrom: this.form.isoStart,
-        dateTo: this.form.isoEnd,
+        start: this.form.isoStart,
+        end: this.form.isoEnd,
       });
       this.availableList = response.data;
     },
-    async reserveRoom(roomId, roomResa) {
-      console.log(`roomid:${roomId}, roomResa:${roomResa}`);
-
+    async reserveRoom(roomId) {
       await PostsService.updateRoomResa({
         id: roomId,
         resa: this.newResa,
