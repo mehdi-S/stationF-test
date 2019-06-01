@@ -213,9 +213,9 @@ export default {
     async searchPost() {
       const response = await PostsService.searchPosts({
         capacity: this.form.capacity,
+        start: this.isoStart,
+        end: this.isoEnd,
         equipments: this.createObjectFromArray(this.form.equipments),
-        start: this.form.isoStart,
-        end: this.form.isoEnd,
       });
       this.availableList = response.data;
     },

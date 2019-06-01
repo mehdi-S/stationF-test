@@ -23,7 +23,7 @@ postRouter.route('/')
 postRouter.route('/post')
   .get((req,res) => {
     var db = req.db;
-    Post.find({}, 'title description capacity equipments', function (error, posts) {
+    Post.find({}, 'title description capacity equipments resa', function (error, posts) {
       if (error) { console.error(error); }
       res.send({
         posts: posts
@@ -55,9 +55,10 @@ postRouter.route('/post')
 
 postRouter.get('/search', (req, res) => {
   var db = req.db;
-  console.log(req.query);
-  Post.find({ capacity: { $gte : req.query.capacity },
-    $and: [{ resa: { $elemMatch: { start: { $lt : req.query.start } } } },{ resa: { $elemMatch: { end: { $lt : req.query.start } } } }] },
+  console.log('query', req.query);
+  Post.find({ 
+      capacity: { $gte : req.query.capacity },
+    },
     'title description capacity equipments resa', function (error, q) {
     if (error) { return res.status(500).send(error); }
     res.send(q);
