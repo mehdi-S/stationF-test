@@ -86,7 +86,7 @@ postRouter.put('/post', (req, res) => {
   var db = req.db;
   Post.findOneAndUpdate(
     {'_id':req.body.id},
-    req.body,
+    {$addToSet : { "resa" : req.body.resa } },
     {new:true}
   )
   .then(doc => { res.json() })

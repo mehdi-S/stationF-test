@@ -154,10 +154,13 @@
           <v-btn flat @click="reserveRoom(result._id, result.resa)">Reserve</v-btn>
         </v-card-actions>
         <v-slide-y-transition>
-          <v-card-text v-show="show">{{ result.description }}</v-card-text>
+          <v-card-text v-show="show">
+            {{ result.description }}
+            reserved at: {{ result.resa }}
+          </v-card-text>
         </v-slide-y-transition>
     </v-card>
-    <div>start: {{isoStart}},End:{{isoEnd}}, resaobj:{{newResa}}</div>
+    <div>start: {{isoStart}},End:{{isoEnd}}, newresa:{{newResa}}</div>
     {{ availableList }}
   </v-container>
 </template>
@@ -211,9 +214,8 @@ export default {
       const response = await PostsService.searchPosts({
         capacity: this.form.capacity,
         equipments: this.createObjectFromArray(this.form.equipments),
-        date: this.form.date,
-        timeFrom: this.form.timeFrom,
-        timeTo: this.form.timeTo,
+        dateFrom: this.form.isoStart,
+        dateTo: this.form.isoEnd,
       });
       this.availableList = response.data;
     },
@@ -222,7 +224,7 @@ export default {
 
       await PostsService.updateRoomResa({
         id: roomId,
-        resa: roomResa.push(this.newResa),
+        resa: this.newResa,
       });
       this.searchPost();
     },
