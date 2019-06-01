@@ -6,8 +6,7 @@
       absolute
       top
       right
-      color="success"
-    >
+      color="success">
       <span>Registration successful!</span>
       <v-icon dark>check_circle</v-icon>
     </v-snackbar>
@@ -32,13 +31,13 @@
               </template>
             </v-textarea>
           </v-flex>
-          <v-flex xs12>
+          <v-flex xs12 sm3>
             <v-checkbox label="Nintendo Switch" value="Nintendo Switch" v-model="form.equipments"/>
             <v-checkbox
               label="Retro Projecteur" value="Retro Projecteur" v-model="form.equipments"/>
             <v-checkbox label="Réfrigérateur" value="Réfrigérateur" v-model="form.equipments"/>
           </v-flex>
-          <v-flex xs12 sm6>
+          <v-flex xs12 sm9>
             <v-slider
               v-model="form.capacity"
               :min="1"
@@ -63,7 +62,6 @@
         Add</v-btn>
       </v-card-actions>
     </v-form>
-  
   </v-card>
 </template>
 
