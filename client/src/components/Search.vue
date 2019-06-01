@@ -52,14 +52,13 @@
                 </v-date-picker>
               </v-menu>
             </v-flex>
-            <v-spacer></v-spacer>
-            <v-flex xs12>
+            <v-flex xs6>
               <v-menu
-                ref="menu"
-                v-model="hourMenu"
+                ref="fromMenu"
+                v-model="fromMenu"
                 :close-on-content-click="false"
                 :nudge-right="40"
-                :return-value.sync="form.time"
+                :return-value.sync="form.timeFrom"
                 lazy
                 transition="scale-transition"
                 offset-y
@@ -69,18 +68,50 @@
               >
                 <template v-slot:activator="{ on }">
                   <v-text-field
-                    v-model="form.time"
-                    label="Hour"
+                    v-model="form.timeFrom"
+                    label="From"
                     prepend-icon="access_time"
                     readonly
                     v-on="on"
                   ></v-text-field>
                 </template>
                 <v-time-picker
-                  v-if="hourMenu"
-                  v-model="form.time"
+                  v-if="fromMenu"
+                  v-model="form.timeFrom"
                   full-width
-                  @click:minute="$refs.menu.save(form.time)"
+                  @click:minute="$refs.fromMenu.save(form.timeFrom)"
+                  format="24hr"
+                ></v-time-picker>
+              </v-menu>
+            </v-flex>
+            <v-flex xs6>
+              <v-menu
+                ref="toMenu"
+                v-model="toMenu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                :return-value.sync="form.timeTo"
+                lazy
+                transition="scale-transition"
+                offset-y
+                full-width
+                max-width="290px"
+                min-width="290px"
+              >
+                <template v-slot:activator="{ on }">
+                  <v-text-field
+                    v-model="form.timeTo"
+                    label="To"
+                    prepend-icon="access_time"
+                    readonly
+                    v-on="on"
+                  ></v-text-field>
+                </template>
+                <v-time-picker
+                  v-if="toMenu"
+                  v-model="form.timeTo"
+                  full-width
+                  @click:minute="$refs.toMenu.save(form.timeTo)"
                   format="24hr"
                 ></v-time-picker>
               </v-menu>
@@ -119,17 +150,20 @@
           </v-btn>
           <small>Desription</small>
           <v-spacer></v-spacer>
-          <v-btn flat color="purple">Reserve</v-btn>
+          <v-btn flat @click="reserveRoom">Reserve</v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="show">{{ result.description }}</v-card-text>
         </v-slide-y-transition>
     </v-card>
+    <div>start: {{isoStart}},End:{{isoEnd}}</div>
+    {{ availableList }}
   </v-container>
 </template>
 
 <script>
 import PostsService from '@/services/PostsService';
+import moment from 'moment';
 
 export default {
   name: 'Search',
@@ -137,21 +171,26 @@ export default {
     const defaultForm = Object.freeze({
       capacity: 0,
       date: new Date().toISOString().substr(0, 10),
-      time: null,
+      timeFrom: moment().format('HH:mm'),
+      timeTo: moment().add(1, 'hours').format('HH:mm'),
       equipments: [],
     });
     return {
       form: Object.assign({}, defaultForm),
       datePicker: false,
-      hourMenu: false,
+      fromMenu: false,
+      toMenu: false,
       availableList: [],
       defaultForm,
+      isoStart: null,
+      isoEnd: null,
     };
   },
   watch: {
     form: {
       handler(val) {
         console.log(val);
+        this.createIsoDate(this.form.date, this.form.timeFrom, this.form.timeTo);
       },
       deep: true,
     },
@@ -160,7 +199,7 @@ export default {
     formIsValid() {
       return (
         this.form.date &&
-        this.form.time &&
+        this.form.timeFrom &&
         this.form.capacity
       );
     },
@@ -171,10 +210,22 @@ export default {
         capacity: this.form.capacity,
         equipments: this.createObjectFromArray(this.form.equipments),
         date: this.form.date,
-        time: this.form.time,
+        timeFrom: this.form.timeFrom,
+        timeTo: this.form.timeTo,
       });
       console.log(response.data);
       this.availableList = response.data;
+    },
+    async reserveRoom() {
+      const newResa = [{ start: '25/02/2019 10:12', end: '25/02/2019 10:14' }];
+      await PostsService.updatePost({
+        id: this.availableList.id,
+        resa: newResa,
+      });
+    },
+    createIsoDate(date, from, to) {
+      this.isoStart = moment(`${date}T${from}`).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+      this.isoEnd = moment(`${date}T${to}`).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];

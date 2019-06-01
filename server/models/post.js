@@ -6,7 +6,7 @@ var PostSchema = new Schema({
   description: String,
   capacity: Number,
   equipments: [{ name: String }],
-  resa: [{ date: String, time: String }],
+  resa: [{ start: Date, end: Date }],
 });
 
 var Post = mongoose.model("Post", PostSchema);

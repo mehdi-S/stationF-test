@@ -55,7 +55,7 @@ postRouter.route('/post')
 
 postRouter.get('/search', (req, res) => {
   var db = req.db;
-  Post.find({ capacity: { $gte : req.query.capacity } }, 'title description capacity equipments resa', function (error, q) {
+  Post.find({ capacity: { $gte : req.query.capacity, } }, 'title description capacity equipments resa', function (error, q) {
     if (error) { return res.status(500).send(error); }
     res.send(q);
   })

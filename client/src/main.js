@@ -11,6 +11,8 @@ import router from './router';
 Vue.config.productionTip = false;
 Vue.use(Vuetify);
 Vue.use(VueHead);
+Vue.use(require('vue-moment'));
+
 Object.defineProperty(Vue.prototype, '$_', { value: _ });
 
 /* eslint-disable no-new */
