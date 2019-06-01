@@ -17,6 +17,10 @@ export default {
     return Api().put(`post/${params.id}`, params);
   },
 
+  updateRoomResa(params) {
+    return Api().put('post', params);
+  },
+
   getPost(params) {
     return Api().get(`post/${params.id}`);
   },

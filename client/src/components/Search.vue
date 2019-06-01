@@ -117,7 +117,8 @@
               </v-menu>
             </v-flex>
             <v-flex xs12>
-              <v-checkbox label="Nintendo Switch" value="Nintendo Switch" v-model="form.equipments"/>
+              <v-checkbox
+                label="Nintendo Switch" value="Nintendo Switch" v-model="form.equipments"/>
               <v-checkbox
                 label="Retro Projecteur" value="Retro Projecteur" v-model="form.equipments"/>
               <v-checkbox label="Réfrigérateur" value="Réfrigérateur" v-model="form.equipments"/>
@@ -150,13 +151,13 @@
           </v-btn>
           <small>Desription</small>
           <v-spacer></v-spacer>
-          <v-btn flat @click="reserveRoom">Reserve</v-btn>
+          <v-btn flat @click="reserveRoom(result._id, result.resa)">Reserve</v-btn>
         </v-card-actions>
         <v-slide-y-transition>
           <v-card-text v-show="show">{{ result.description }}</v-card-text>
         </v-slide-y-transition>
     </v-card>
-    <div>start: {{isoStart}},End:{{isoEnd}}</div>
+    <div>start: {{isoStart}},End:{{isoEnd}}, resaobj:{{newResa}}</div>
     {{ availableList }}
   </v-container>
 </template>
@@ -170,13 +171,14 @@ export default {
   data() {
     const defaultForm = Object.freeze({
       capacity: 0,
-      date: new Date().toISOString().substr(0, 10),
+      date: moment().format('YYYY-MM-DD'),
       timeFrom: moment().format('HH:mm'),
       timeTo: moment().add(1, 'hours').format('HH:mm'),
       equipments: [],
     });
     return {
       form: Object.assign({}, defaultForm),
+      show: false,
       datePicker: false,
       fromMenu: false,
       toMenu: false,
@@ -184,13 +186,13 @@ export default {
       defaultForm,
       isoStart: null,
       isoEnd: null,
+      newResa: {},
     };
   },
   watch: {
     form: {
       handler(val) {
-        console.log(val);
-        this.createIsoDate(this.form.date, this.form.timeFrom, this.form.timeTo);
+        this.createIsoDate(val.date, val.timeFrom, val.timeTo);
       },
       deep: true,
     },
@@ -213,19 +215,21 @@ export default {
         timeFrom: this.form.timeFrom,
         timeTo: this.form.timeTo,
       });
-      console.log(response.data);
       this.availableList = response.data;
     },
-    async reserveRoom() {
-      const newResa = [{ start: '25/02/2019 10:12', end: '25/02/2019 10:14' }];
-      await PostsService.updatePost({
-        id: this.availableList.id,
-        resa: newResa,
+    async reserveRoom(roomId, roomResa) {
+      console.log(`roomid:${roomId}, roomResa:${roomResa}`);
+
+      await PostsService.updateRoomResa({
+        id: roomId,
+        resa: roomResa.push(this.newResa),
       });
+      this.searchPost();
     },
     createIsoDate(date, from, to) {
       this.isoStart = moment(`${date}T${from}`).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
       this.isoEnd = moment(`${date}T${to}`).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
+      this.newResa = { start: this.isoStart, end: this.isoEnd };
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];

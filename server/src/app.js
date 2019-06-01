@@ -81,6 +81,17 @@ postRouter.put('/post/:id', (req, res) => {
   .then(doc => { res.json() })
   .catch(err => { res.status(500).json(err) })
 })
+// Update a post
+postRouter.put('/post', (req, res) => {
+  var db = req.db;
+  Post.findOneAndUpdate(
+    {'_id':req.body.id},
+    req.body,
+    {new:true}
+  )
+  .then(doc => { res.json() })
+  .catch(err => { res.status(500).json(err) })
+})
 
 // Delete a post
 postRouter.delete('/post/:id', (req, res) => {
