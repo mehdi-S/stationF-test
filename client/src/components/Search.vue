@@ -145,23 +145,21 @@
           <div> Maximum capacity of {{ result.capacity }} people</div>
         </div>
       </v-card-title>
-       <v-card-actions>
-          <v-btn icon @click="show = !show">
-            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn>
-          <small>Desription</small>
-          <v-spacer></v-spacer>
-          <v-btn flat @click="reserveRoom(result._id)">Reserve</v-btn>
-        </v-card-actions>
-        <v-slide-y-transition>
-          <v-card-text v-show="show">
-            {{ result.description }}
-            reserved at: {{ result.resa }}
-          </v-card-text>
-        </v-slide-y-transition>
+      <v-card-actions>
+        <v-btn icon @click="show = !show">
+          <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+        </v-btn>
+        <small>Desription</small>
+        <v-spacer></v-spacer>
+        <v-btn flat @click="reserveRoom(result._id)">Reserve</v-btn>
+      </v-card-actions>
+      <v-slide-y-transition>
+        <v-card-text v-show="show">
+          {{ result.description }}
+          reserved at: {{ result.resa }}
+        </v-card-text>
+      </v-slide-y-transition>
     </v-card>
-    <v-card-text>start: {{isoStart}},End:{{isoEnd}}</v-card-text>
-    <v-card-text>newresa:{{newResa}}</v-card-text>
   </v-container>
 </template>
 

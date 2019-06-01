@@ -51,7 +51,7 @@
         </v-layout>
       </v-container>
       <v-card-actions>
-        <v-btn flat @click="resetForm">Cancel</v-btn>
+        <v-btn flat @click="$router.go(-1)">Cancel</v-btn>
         <v-spacer></v-spacer>
         <v-btn
           :disabled="!formIsValid"
@@ -59,7 +59,7 @@
           color="primary"
           type="submit"
           @click="updatePost">
-        Add</v-btn>
+        Save</v-btn>
       </v-card-actions>
     </v-form>
   </v-card>
@@ -99,10 +99,6 @@ export default {
     this.getPost();
   },
   methods: {
-    resetForm() {
-      this.form = Object.assign({}, this.defaultForm);
-      this.$refs.form.reset();
-    },
     submit() {
       this.resetForm();
       this.snackbar = true;
