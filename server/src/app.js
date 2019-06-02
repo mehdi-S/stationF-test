@@ -55,7 +55,6 @@ postRouter.route('/post')
 
 postRouter.get('/search', (req, res) => {
   var db = req.db;
-  console.log('query', req.query);
   Post.find({ 
       capacity: { $gte : req.query.capacity },
       resa: {

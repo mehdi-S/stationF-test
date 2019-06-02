@@ -255,7 +255,6 @@ export default {
       this.newResa = { start: this.isoStart, end: this.isoEnd };
     },
     validateTime(from, to) {
-      console.log(moment(from).isAfter(to));
       const fromMoment = moment(from, 'hh:mm');
       const toMoment = moment(to, 'hh:mm');
       if (fromMoment.isAfter(toMoment)) {
