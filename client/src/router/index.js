@@ -1,7 +1,6 @@
 
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hello from '@/components/HelloWorld';
 import NewPost from '@/components/NewPost';
 import Edit from '@/components/Edit';
 import Search from '@/components/Search';
@@ -14,8 +13,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello,
+      name: 'Search',
+      component: Search,
     },
     {
       path: '/search',
