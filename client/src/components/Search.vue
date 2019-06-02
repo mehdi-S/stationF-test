@@ -152,18 +152,34 @@
           <div> Maximum capacity of {{ result.capacity }} people</div>
         </div>
       </v-card-title>
+      <v-card-text>
+
+      </v-card-text>
       <v-card-actions>
         <v-btn icon @click="show = !show">
           <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
         </v-btn>
-        <small>Desription</small>
+        <small>Detail</small>
         <v-spacer></v-spacer>
         <v-btn flat @click="reserveRoom(result._id)">Reserve</v-btn>
       </v-card-actions>
       <v-slide-y-transition>
         <v-card-text v-show="show">
-          {{ result.description }}
-          reserved at: {{ result.resa }}
+
+          <v-layout row>
+          <v-flex xs6>
+          <p class="body-2">Description:</p>
+          <p class="body-1 text-truncate">{{ result.description }}</p>
+          </v-flex>
+
+          <v-flex xs6>
+          <p class="body-2">Equipments list:</p>
+          <p class="body-1" v-for="item in result.equipments" :key="item._id">
+            {{item.name}}
+          </p>
+          </v-flex>
+          </v-layout>
+
         </v-card-text>
       </v-slide-y-transition>
     </v-card>

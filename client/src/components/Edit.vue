@@ -91,7 +91,8 @@ export default {
     formIsValid() {
       return (
         this.form.title &&
-        this.form.description
+        this.form.description &&
+        this.form.capacity
       );
     },
   },
@@ -100,7 +101,6 @@ export default {
   },
   methods: {
     submit() {
-      this.resetForm();
       this.snackbar = true;
     },
     async getPost() {

@@ -91,7 +91,8 @@ export default {
     formIsValid() {
       return (
         this.form.title &&
-        this.form.description
+        this.form.description &&
+        this.form.capacity
       );
     },
   },
