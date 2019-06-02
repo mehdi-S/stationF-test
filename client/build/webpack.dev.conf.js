@@ -42,7 +42,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     quiet: true, // necessary for FriendlyErrorsPlugin
     watchOptions: {
       poll: config.dev.poll,
-    }
+    },
+    allowedHosts: [
+      'district42.fr',
+    ],
   },
   plugins: [
     new webpack.DefinePlugin({
