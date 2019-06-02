@@ -238,7 +238,7 @@ export default {
         capacity: this.form.capacity,
         start: this.isoStart,
         end: this.isoEnd,
-        equipments: this.createObjectFromArray(this.form.equipments),
+        equipments: JSON.stringify(this.form.equipments),
       });
       this.availableList = response.data;
     },
