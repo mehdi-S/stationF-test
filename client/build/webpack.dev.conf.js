@@ -45,6 +45,7 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     },
     allowedHosts: [
       'district42.fr',
+      'www.district42.fr',
     ],
   },
   plugins: [
