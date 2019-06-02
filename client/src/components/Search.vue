@@ -1,6 +1,14 @@
 <template>
   <v-container grid-list-xl fluid justify-center>
     <v-card class="card" id="mainCard">
+    <v-snackbar
+      v-model="snackbar"
+      top
+      :timeout=2000
+      color="error"
+    >
+      <span>bad time selection</span>
+    </v-snackbar>
       <v-subheader>Parameters</v-subheader>
       <v-container grid-list-xl fluid>
         <v-layout wrap>
@@ -188,11 +196,13 @@ export default {
       isoStart: null,
       isoEnd: null,
       newResa: {},
+      snackbar: false,
     };
   },
   watch: {
     form: {
       handler(val) {
+        this.validateTime(val.timeFrom, val.timeTo);
         this.createIsoDate(val.date, val.timeFrom, val.timeTo);
       },
       deep: true,
@@ -228,6 +238,16 @@ export default {
       this.isoStart = moment(`${date}T${from}`).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
       this.isoEnd = moment(`${date}T${to}`).utc().format('YYYY-MM-DDTHH:mm:ss.SSS[Z]');
       this.newResa = { start: this.isoStart, end: this.isoEnd };
+    },
+    validateTime(from, to) {
+      console.log(moment(from).isAfter(to));
+      const fromMoment = moment(from, 'hh:mm');
+      const toMoment = moment(to, 'hh:mm');
+      if (fromMoment.isAfter(toMoment)) {
+        this.form.timeFrom = this.defaultForm.timeFrom;
+        this.form.timeTo = this.defaultForm.timeTo;
+        this.snackbar = true;
+      }
     },
     createObjectFromArray(stringArray) {
       const arrayOfEquipments = [];

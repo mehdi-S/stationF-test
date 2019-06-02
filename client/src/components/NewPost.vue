@@ -51,7 +51,7 @@
         </v-layout>
       </v-container>
       <v-card-actions>
-        <v-btn flat @click="resetForm">Cancel</v-btn>
+        <v-btn flat @click="resetForm">Reset</v-btn>
         <v-spacer></v-spacer>
         <v-btn
           :disabled="!formIsValid"
