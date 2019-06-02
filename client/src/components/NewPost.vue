@@ -115,7 +115,6 @@ export default {
     },
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
-      this.$refs.form.reset();
     },
     submit() {
       this.snackbar = true;

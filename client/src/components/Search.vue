@@ -5,8 +5,7 @@
       v-model="snackbar"
       top
       :timeout=2000
-      color="error"
-    >
+      color="error">
       <span>bad time selection</span>
     </v-snackbar>
       <v-subheader>Parameters</v-subheader>
@@ -260,7 +259,6 @@ export default {
     },
     resetForm() {
       this.form = Object.assign({}, this.defaultForm);
-      this.$refs.form.reset();
     },
   },
 };
