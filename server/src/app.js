@@ -58,6 +58,34 @@ postRouter.get('/search', (req, res) => {
   console.log('query', req.query);
   Post.find({ 
       capacity: { $gte : req.query.capacity },
+      resa: {
+        $not: {
+          $elemMatch: {
+            $or: [
+              {
+                $and: [
+                { start: { $gte : req.query.start }},
+                { start: { $lte : req.query.end } }]
+              },
+              {
+                $and: [
+                  { end: { $gte : req.query.start }},
+                  { end: { $lte : req.query.end } }]
+              },
+              {
+                $and: [
+                  { start: { $gte : req.query.start }},
+                  { end: { $lte : req.query.end } }]
+              },
+              {
+                $and: [
+                  { start: { $lte : req.query.start }},
+                  { end: { $gte : req.query.end } }]
+              },
+            ],
+          },
+        },
+      },
     },
     'title description capacity equipments resa', function (error, q) {
     if (error) { return res.status(500).send(error); }
